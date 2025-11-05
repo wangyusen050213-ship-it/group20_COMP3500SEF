@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="Project.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Food Ordering System — Full‑Width Carousel</title>
+
+</head>
+<body>
+<header>
+  <div class="wrap topbar">
+    <a class="brand" href="#home" data-route="home">
+      <div class="brand-badge">FS</div><strong>Food Ordering System</strong>
+    </a>
+    <div style="display:flex;gap:8px">
+      <span id="authState" class="ink">Not logged in</span>
+      <a id="btnRoleUser" class="pill" href="#login?as=user" data-route="login" data-role="user">User</a>
+      <a id="btnRoleStaff" class="pill" href="#login?as=staff" data-route="login" data-role="staff">Staff</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Home -->
+  <section id="page-home" class="page active">
+    <div class="hero">
+      <!-- FULL-WIDTH CAROUSEL -->
+      <div class="carousel" id="carousel">
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="carouselTrack">
+            <!-- Slide 1 -->
+            <section class="slide" aria-label="Top Rated">
+              <h1>Choose a restaurant</h1>
+              <p class="muted">Browse first. When you choose a dish (Add) we’ll ask you to log in.</p>
+              <div class="badges">
+                <span class="badge">Top Rated</span>
+                <span class="badge">4.7+ Stars</span>
+                <span class="badge">Curated Picks</span>
+              </div>
+              <div class="visual">
+                <canvas width="1200" height="320" data-label="Top Rated" data-colors="#0ea5e9,#022c22"></canvas>
+              </div>
+            </section>
+
+            <!-- Slide 2 -->
+            <section class="slide" aria-label="Fast Delivery">
+              <h1>Choose a restaurant</h1>
+              <p class="muted">Hungry now? These restaurants have the quickest ETAs near you.</p>
+              <div class="badges">
+                <span class="badge">Fast Delivery</span>
+                <span class="badge">10–20 min</span>
+                <span class="badge">Live Tracking</span>
+              </div>
+              <div class="visual">
+                <canvas width="1200" height="320" data-label="Fast Delivery" data-colors="#ef4444,#78350f"></canvas>
+              </div>
+            </section>
+
+            <!-- Slide 3 -->
+            <section class="slide" aria-label="Vegan Friendly">
+              <h1>Choose a restaurant</h1>
+              <p class="muted">Plant-based favorites and healthy picks for every taste.</p>
+              <div class="badges">
+                <span class="badge">Vegan Friendly</span>
+                <span class="badge">Gluten‑free Options</span>
+                <span class="badge">Fresh Daily</span>
+              </div>
+              <div class="visual">
+                <canvas width="1200" height="320" data-label="Vegan Friendly" data-colors="#22c55e,#052e16"></canvas>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="carousel-nav">
+          <button class="carousel-btn" id="prevBtn" aria-label="Previous">‹</button>
+          <button class="carousel-btn" id="nextBtn" aria-label="Next">›</button>
+        </div>
+        <div class="carousel-dots" id="carouselDots" aria-label="Carousel Pagination"></div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:18px" >Restaurants</h2>
+    <div class="restaurants-vertical" id="restaurantList"></div>
+  </section>
+
+  <!-- Restaurant details -->
+  <section id="page-restaurant" class="page">
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+      <a class="back-pill" href="#home" data-route="home">← Back</a>
+      <h2 id="restTitle" style="margin:0"></h2>
+    </div>
+    <p id="restDesc" class="brand-dark" style="margin:6px 0 0"></p>
+
+    <div class="layout">
+      <div>
+        <h3>Menu</h3>
+        <div class="menu" id="menu"></div>
+
+        <div class="card" style="margin-top:16px">
+          <h3>Comments</h3>
+          <div id="commentsList" class="comments"></div>
+          <form id="commentForm" class="form" style="margin-top:8px">
+            <label>Comment<textarea id="commentText" rows="3" placeholder="Share your thoughts about this restaurant"></textarea></label>
+            <button class="btn primary" type="submit">Post comment</button>
+            <div class="muted" id="commentStatus"></div>
+          </form>
+        </div>
+      </div>
+      <aside class="cart">
+        <h3>Cart</h3>
+        <ul id="cartList"></ul>
+        <div class="total"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+        <button class="checkout" id="checkoutBtn">Checkout</button>
+      </aside>
+    </div>
+  </section>
+
+ <!-- Login/Register -->
+  <section id="page-login" class="page">
+    <div class="login-shell">
+      <a class="back-pill" href="#home" data-route="home">← Back</a>
+      <div class="stack">
+        <h2 id="loginTitle" style="margin:0 0 4px">Log in</h2>
+        <div class="muted" id="postLoginHint"></div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+          <a class="cta" href="#" id="btnRegister">Register</a>
+          <a class="cta" href="#" id="btnLogin">Log in</a>
+        </div>
+
+        <form id="registerForm" class="form" style="display:none">
+          <div class="muted" id="registerAs">Role: User</div>
+          <label>Name<input required></label>
+          <label>Email><input type="email" required></label>
+          <label>Password><input type="password" required></label>
+          <button class="btn primary" type="submit">Create account</button>
+        </form>
+
+        <form id="loginForm" class="form">
+          <div class="muted" id="loginAs">Role: User</div>
+          <label>Email<input type="email" id="loginEmail" required></label>
+          <label>Password<input type="password" id="loginPass" required></label>
+          <button class="btn primary" type="submit">Log in</button>
+          <div class="muted" id="loginError" style="color:#b91c1c"></div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Payment -->
+  <section id="page-payment" class="page">
+    <div class="card">
+      <h2>Payment</h2>
+      <div class="form">
+        <label>Method
+          <select id="payMethod">
+            <option value="card">Card</option>
+            <option value="wallet">Wallet</option>
+            <option value="cash">Cash on delivery</option>
+          </select>
+        </label>
+        <label>Note<textarea rows="3" id="orderNote" placeholder="Allergies, preferences..."></textarea></label>
+        <button class="btn primary" id="btnPay">Pay</button>
+        <div class="muted" id="payStatus"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tracking -->
+  <section id="page-tracking" class="page">
+    <div class="card">
+      <h2>Real-time Tracking</h2>
+      <canvas id="map" class="map" width="1000" height="420"></canvas>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn ghost" id="trackPause">Pause</button>
+        <button class="btn ghost" id="trackResume">Resume</button>
+        <button class="btn primary" id="btnDelivered">Delivered</button>
+      </div>
+      <div class="muted" id="trackInfo"></div>
+    </div>
+  </section>
+
+ <!-- Rating -->
+  <section id="page-rating" class="page">
+    <div class="card">
+      <h2>Rating & Feedback</h2>
+      <div class="stars" id="stars"><span class="s">⭐</span><span class="s">⭐</span><span class="s">⭐</span><span class="s">⭐</span><span class="s">⭐</span></div>
+      <div class="form" style="margin-top:10px">
+        <label>Comment<textarea id="fbText" rows="3" placeholder="How was it?"></textarea></label>
+        <button class="btn primary" id="sendFeedback">Submit</button>
+        <div class="muted" id="fbStatus"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Finish (new) -->
+  <section id="page-finish" class="page">
+    <div class="finish-wrap">
+      <div class="card finish-card">
+        <h2>Delivery Finished</h2>
+        <p class="muted" id="finishSummary">Order has been delivered successfully.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button class="btn primary" id="finishGoStaff">Go to Staff Console</button>
+          <button class="btn ghost" id="finishGoHome">Go to Home</button>
+        </div>
+        <div class="muted" id="finishAutoNote" style="margin-top:6px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Staff -->
+  <section id="page-staff" class="page">
+    <h2>Staff Console</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="card"><h4>Order Management</h4><div id="orderBoard"></div></div>
+      <div class="card"><h4>Delivery Management</h4><div id="deliveryBoard"></div></div>
+    </div>
+  </section>
+
+  <footer>© <span id="year"></span> Food Ordering System — Demo</footer>
+</main>
+
+<script>
+/* ===== Helpers, router, auth state ===== */
+const pages={home:el('page-home'), restaurant:el('page-restaurant'), login:el('page-login'), payment:el('page-payment'), tracking:el('page-tracking'), rating:el('page-rating'), staff:el('page-staff'), finish:el('page-finish')};
+function el(id){return document.getElementById(id)}
+function show(page){Object.values(pages).forEach(p=>p.classList.remove('active')); (pages[page]||pages.home).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'})}
+let role='user'; let isLoggedIn=false; let redirectTo=null; let pendingRestaurantId=null; let pendingAddDish=null;
+const AUTH_DEMOS={user:{email:'demo.user@example.com',pass:'demo1234'}, staff:{email:'demo.staff@example.com',pass:'staff1234'}};
+
+/* Role pills */
+const roleUserBtn=document.getElementById('btnRoleUser');
+const roleStaffBtn=document.getElementById('btnRoleStaff');
+function updateRolePills(){ if(role==='staff'){ roleStaffBtn.classList.add('filled'); roleUserBtn.classList.remove('filled'); } else { roleUserBtn.classList.add('filled'); roleStaffBtn.classList.remove('filled'); } }
+roleUserBtn.addEventListener('click',()=>{ role='user'; updateRolePills(); });
+roleStaffBtn.addEventListener('click',()=>{ role='staff'; updateRolePills(); });
+
+function parseHash(){
+  const h=(location.hash||'#home').slice(1); const [route,q]=h.split('?'); const params=Object.fromEntries(new URLSearchParams(q||''));
+  if(route==='login'){ role=(params.as||role||'user'); setAuthRole(role); updateRolePills(); show('login'); updatePostLoginHint(); setLoginMode('login'); return; }
+  if(route==='restaurant'){ const rid=params.id; goRestaurant(rid); return; }
+  if(route in pages){ show(route); } else show('home');
+}
+window.addEventListener('hashchange',parseHash); parseHash();
+document.querySelectorAll('[data-route="home"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); location.hash='home'}));
+document.querySelectorAll('[data-route="login"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); const r=a.dataset.role||'user'; role=r; updateRolePills(); location.hash='login?as='+r;}));
+
+/* ===== Full-block slide canvases ===== */
+(function slidesVisuals(){
+  document.querySelectorAll('.slide .visual canvas').forEach((cv)=>{
+    const ctx=cv.getContext('2d'); const [a,b]=(cv.dataset.colors||'#10b981,#064e3b').split(',');
+    const g=ctx.createLinearGradient(0,0,cv.width,cv.height); g.addColorStop(0,a); g.addColorStop(1,b);
+    ctx.fillStyle=g; ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle='#ffffffcc'; ctx.fillRect(0,0,cv.width,72);
+    ctx.fillStyle='#111827'; ctx.font='bold 36px Inter, system-ui'; ctx.fillText(cv.dataset.label||'Highlight',24,48);
+  });
+})();
+
+/* ===== Carousel logic ===== */
+(function carousel(){
+  const track=el('carouselTrack');
+  const slides=[...track.children];
+  const dotsWrap=el('carouselDots');
+  let index=0;
+  let autoTimer=null;
+  let dragging=false, startX=0, startTx=0;
+
+  function setIndex(i, opts={animate:true}){
+    index=(i+slides.length)%slides.length;
+    track.style.transition = opts.animate ? 'transform .35s ease' : 'none';
+    const x = -index*track.clientWidth;
+    track.style.transform=`translateX(${x}px)`;
+    updateDots();
+  }
+  function updateDots(){
+    dotsWrap.innerHTML='';
+    slides.forEach((_,i)=>{
+      const b=document.createElement('button');
+      b.className='dot'+(i===index?' active':'');
+      b.setAttribute('aria-label','Go to slide '+(i+1));
+      b.addEventListener('click',()=>{ stopAuto(); setIndex(i); });
+      dotsWrap.appendChild(b);
+    });
+  }
+  function next(){ setIndex(index+1); }
+  function prev(){ setIndex(index-1); }
+
+  function startAuto(){ if(autoTimer) return; autoTimer=setInterval(()=>setIndex(index+1), 5000); }
+  function stopAuto(){ if(autoTimer){ clearInterval(autoTimer); autoTimer=null; } }
+
+  function onResize(){ setIndex(index,{animate:false}); }
+  window.addEventListener('resize', onResize);
+
+  function onDown(clientX){
+    dragging=true; startX=clientX; startTx = -index*track.clientWidth;
+    track.style.transition='none'; stopAuto();
+  }
+  function onMove(clientX){
+    if(!dragging) return; const dx=clientX-startX; track.style.transform=`translateX(${startTx + dx}px)`;
+  }
+  function onUp(clientX){
+    if(!dragging) return; const dx=clientX-startX; const threshold=track.clientWidth*0.15;
+    if(dx<-threshold) index++; else if(dx>threshold) index--;
+    setIndex(index); dragging=false; startAuto();
+  }
+
+  track.addEventListener('mousedown',e=>onDown(e.clientX));
+  window.addEventListener('mousemove',e=>onMove(e.clientX));
+  window.addEventListener('mouseup',e=>onUp(e.clientX));
+
+  track.addEventListener('touchstart',e=>onDown(e.touches[0].clientX),{passive:true});
+  track.addEventListener('touchmove',e=>onMove(e.touches[0].clientX),{passive:true});
+  track.addEventListener('touchend',e=>onUp((e.changedTouches[0]||e.touches[0]).clientX));
+
+  el('nextBtn').addEventListener('click',()=>{ stopAuto(); next(); startAuto(); });
+  el('prevBtn').addEventListener('click',()=>{ stopAuto(); prev(); startAuto(); });
+
+  updateDots();
+  setIndex(0,{animate:false});
+  startAuto();
+})();
+
+/* ===== Data ===== */
+const restaurants=[
+  { id:'r1', name:'Basilico Pizza', rating:4.7, eta:'20-30m', cuisine:'Italian', hero:['#ffedd5','#fb923c'], desc:'Wood‑fired pizzas and salads.',
+    dishes:[ {id:'p1',name:'Margherita',price:10.99,emoji:'🍕',desc:'Tomato, mozzarella, basil'},
+             {id:'p2',name:'Pepperoni',price:12.50,emoji:'🍕',desc:'Pepperoni, mozzarella'},
+             {id:'p3',name:'Tiramisu',price:5.50,emoji:'🍮',desc:'Classic dessert'} ] },
+  { id:'r2', name:'Sora Sushi', rating:4.8, eta:'25-35m', cuisine:'Japanese', hero:['#dcfce7','#22c55e'], desc:'Chef’s sushi and ramen.',
+    dishes:[ {id:'p4',name:'Teriyaki Sushi Box',price:13.50,emoji:'🍣',desc:'8-piece combo'},
+             {id:'p5',name:'Spicy Ramen',price:12.75,emoji:'🍜',desc:'Rich broth'},
+             {id:'p6',name:'Matcha Pudding',price:4.80,emoji:'🍮',desc:'Green tea'} ] },
+  { id:'r3', name:'Green Bowl', rating:4.6, eta:'18-25m', cuisine:'Vegan', hero:['#e0e7ff','#6366f1'], desc:'Plant-based bowls and juices.',
+    dishes:[ {id:'p7',name:'Power Vegan Bowl',price:11.25,emoji:'🥗',desc:'Quinoa / chickpea'},
+             {id:'p8',name:'Avocado Toast',price:8.90,emoji:'🥑',desc:'Sourdough'},
+             {id:'p9',name:'Berry Smoothie',price:6.20,emoji:'🥤',desc:'Mixed berries'} ] }
+];
+
+/* Comments store */
+const commentsStore={
+  r1:[{user:'Alex', text:'Loved the crust! Margherita was perfect.', time:new Date()}],
+  r2:[{user:'Mina', text:'Ramen broth is rich and flavorful.', time:new Date()}],
+  r3:[{user:'Jo', text:'Fresh and tasty bowls, great portions.', time:new Date()}],
+};
+
+/* Restaurants list rendering */
+const restaurantList=document.getElementById('restaurantList');
+function renderRestaurants(){
+  restaurantList.innerHTML='';
+  restaurants.forEach(r=>{
+    const card=document.createElement('div'); card.className='card restaurant';
+    card.innerHTML=`
+      <div style="border-radius:12px;overflow:hidden;height:140px;background:#f3f4f6">
+        <canvas width="1000" height="320" data-colors="${r.hero.join(',')}" data-text="${r.name}"></canvas>
+      </div>
+      <div class="meta">
+        <div>
+          <div style="font-weight:800">${r.name}</div>
+          <div class="muted" style="font-size:.9rem">${r.cuisine} • ${r.eta}</div>
+        </div>
+        <div>⭐ ${r.rating}</div>
+      </div>
+      <button class="btn primary" data-open="${r.id}">View menu</button>
+    `;
+    restaurantList.appendChild(card);
+  });
+  restaurantList.querySelectorAll('canvas').forEach(cv=>{
+    const ctx=cv.getContext('2d'); const [a,b]=(cv.dataset.colors||'#ddd,#bbb').split(',');
+    const g=ctx.createLinearGradient(0,0,cv.width,cv.height); g.addColorStop(0,a); g.addColorStop(1,b);
+    ctx.fillStyle=g; ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle='#ffffffee'; ctx.fillRect(0,0,cv.width,48);
+    ctx.fillStyle='#0f172a'; ctx.font='bold 30px Inter, system-ui'; ctx.fillText(cv.dataset.text||'',16,34);
+  });
+}
+renderRestaurants();
+
+/* Open restaurant */
+restaurantList.addEventListener('click',e=>{
+  const id=e.target.dataset.open; if(!id) return;
+  location.hash='restaurant?id='+id;
+});
+
+/* Restaurant page */
+const restTitle=document.getElementById('restTitle');
+const restDesc=document.getElementById('restDesc');
+const menuEl=document.getElementById('menu');
+const commentsListEl=document.getElementById('commentsList');
+const commentForm=document.getElementById('commentForm');
+const commentText=document.getElementById('commentText');
+const commentStatus=document.getElementById('commentStatus');
+let currentRestaurant=null;
+const cart=new Map();
+const money=v=>'$'+(Math.round(v*100)/100).toFixed(2);
+
+function goRestaurant(id){
+  const r=restaurants.find(x=>x.id===id);
+  if(!r){ location.hash='home'; return; }
+  currentRestaurant=r;
+  restTitle.textContent=r.name;
+  restDesc.textContent=r.desc+' · '+r.cuisine+' · ETA '+r.eta;
+  renderDishes(r);
+  renderComments(r.id);
+  show('restaurant');
+}
+
+function renderDishes(r){
+  menuEl.innerHTML='';
+  r.dishes.forEach(d=>{
+    const item=document.createElement('div'); item.className='card';
+    item.innerHTML=`
+      <div class="menu-item">
+        <div style="font-size:28px">${d.emoji}</div>
+        <div class="info">
+          <div style="font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.name}</div>
+          <div class="muted" style="font-size:.9rem">${d.desc}</div>
+        </div>
+        <div class="price">${money(d.price)}</div>
+        <button class="btn primary" data-add="${d.id}">Add</button>
+      </div>
+    `;
+    menuEl.appendChild(item);
+  });
+}
+
+/* Comments rendering */
+function renderComments(rid){
+  const list=commentsStore[rid]||[];
+  commentsListEl.innerHTML='';
+  if(list.length===0){
+    commentsListEl.innerHTML='<div class="muted">No comments yet. Be the first to comment!</div>';
+    return;
+  }
+  list.slice().reverse().forEach(c=>{
+    const it=document.createElement('div'); it.className='comment-item';
+    const initials=(c.user||'U').slice(0,2).toUpperCase();
+    const time=new Date(c.time).toLocaleString();
+    it.innerHTML=`
+      <div class="avatar">${initials}</div>
+      <div class="comment-body">
+        <div class="comment-meta"><strong>${c.user||'User'}</strong><span>•</span><span>${time}</span></div>
+        <div>${escapeHtml(c.text||'')}</div>
+      </div>
+    `;
+    commentsListEl.appendChild(it);
+  });
+}
+
+/* Escape HTML for comments */
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]))}
+
+/* Comment submit */
+commentForm.addEventListener('submit',e=>{
+  e.preventDefault();
+  const text=(commentText.value||'').trim();
+  if(!text){ commentStatus.textContent='Please write a comment.'; return; }
+  if(!isLoggedIn || role!=='user'){
+    redirectTo={route:'restaurant', params:{id: currentRestaurant?.id}};
+    pendingRestaurantId=currentRestaurant?.id||null;
+    commentStatus.textContent='Please log in to post a comment.';
+    location.hash='login?as=user';
+    return;
+  }
+  const rid=currentRestaurant.id;
+  commentsStore[rid]=commentsStore[rid]||[];
+  commentsStore[rid].push({user:'You', text, time:new Date()});
+  commentText.value=''; commentStatus.textContent='Posted!';
+  renderComments(rid);
+  setTimeout(()=>commentStatus.textContent='',1200);
+});
+
+/* Add dish with auth redirect */
+menuEl.addEventListener('click',e=>{
+  const id=e.target.dataset.add; if(!id) return;
+  const d=currentRestaurant.dishes.find(x=>x.id===id);
+  if(!isLoggedIn || role!=='user'){
+    pendingRestaurantId=currentRestaurant?.id||null;
+    pendingAddDish=id;
+    redirectTo={route:'restaurant', params:{id: pendingRestaurantId}};
+    location.hash='login?as=user';
+    return;
+  }
+  addToCart(d);
+});
+function addToCart(d){
+  const entry=cart.get(d.id)||{dish:d,qty:0}; entry.qty++; cart.set(d.id,entry); updateCart();
+}
+
+/* Cart UI */
+function updateCart(){
+  const list=document.getElementById('cartList'); list.innerHTML=''; let sum=0;
+  if(cart.size===0){ list.innerHTML='<li>Cart is empty</li>'; }
+  else cart.forEach(({dish,qty})=>{
+    const li=document.createElement('li'); const line=dish.price*qty; sum+=line;
+    li.innerHTML=`<span style="display:flex;gap:8px;align-items:center"><span style="font-size:20px">${dish.emoji}</span>${dish.name}</span>
+      <span class="qty"><button data-act="dec" data-id="${dish.id}">-</button><span>${qty}</span><button data-act="inc" data-id="${dish.id}">+</button><button data-act="del" data-id="${dish.id}">✕</button></span>`;
+    list.appendChild(li);
+  });
+  document.getElementById('subtotal').textContent=money(sum);
+}
+document.getElementById('cartList').addEventListener('click',e=>{
+  const id=e.target.dataset.id; if(!id) return; const entry=cart.get(id); if(!entry) return;
+  const act=e.target.dataset.act; if(act==='inc') entry.qty++; if(act==='dec') entry.qty=Math.max(0,entry.qty-1);
+  if(act==='del'||entry.qty===0) cart.delete(id); updateCart();
+});
+document.getElementById('checkoutBtn').addEventListener('click',()=>{
+  if(cart.size===0) return alert('Your cart is empty.');
+  if(!isLoggedIn || role!=='user'){
+    redirectTo={route:'payment'};
+    location.hash='login?as=user';
+    return;
+  }
+  location.hash='payment';
+});
+
+document.getElementById('btnPay').addEventListener('click',()=>{
+  const status=document.getElementById('payStatus'); status.textContent='Processing...';
+  setTimeout(()=>{ status.textContent='Paid! Creating order and assigning courier...'; createStaffOrder(); setTimeout(()=>{ location.hash='tracking'; },800); },800);
+});
+
+/* Tracking canvas */
+const map=document.getElementById('map'); const mctx=map.getContext('2d'); let path=[], prog=0, running=true;
+function initPath(){ const w=map.width,h=map.height; path=[{x:40,y:h-60},{x:w*0.35,y:h*0.7},{x:w*0.55,y:h*0.5},{x:w*0.75,y:h*0.35},{x:w-60,y:80}]; prog=0; running=true; drawMap(); }
+function drawMap(){ mctx.fillStyle='#eef2ff'; mctx.fillRect(0,0,map.width,map.height); mctx.strokeStyle='#94a3b8'; mctx.lineWidth=8; mctx.lineCap='round'; mctx.beginPath(); mctx.moveTo(path[0].x,path[0].y); for(let i=1;i<path.length;i++) mctx.lineTo(path[i].x,path[i].y); mctx.stroke(); mctx.fillStyle='#10b981'; mctx.beginPath(); mctx.arc(path[0].x,path[0].y,10,0,Math.PI*2); mctx.fill(); mctx.fillStyle='#ef4444'; mctx.beginPath(); mctx.arc(path.at(-1).x,path.at(-1).y,10,0,Math.PI*2); mctx.fill(); }
+function lerp(a,b,t){return a+(b-a)*t}
+function animateRider(){ if(!running) return requestAnimationFrame(animateRider); drawMap(); const seg=Math.floor(prog); const t=prog-seg; const p0=path[seg], p1=path[Math.min(seg+1,path.length-1)]; const x=lerp(p0.x,p1.x,t), y=lerp(p0.y,p1.y,t); mctx.fillStyle='#111827'; mctx.beginPath(); mctx.arc(x,y,12,0,Math.PI*2); mctx.fill(); mctx.fillStyle='#fff'; mctx.font='900 14px system-ui'; mctx.fillText('Rider', x-16, y-16); prog+=0.012; if(prog>=path.length-1){ running=false; document.getElementById('trackInfo').textContent='Arrived.'; } requestAnimationFrame(animateRider); }
+initPath(); requestAnimationFrame(animateRider);
+document.getElementById('trackPause').onclick=()=>running=false;
+document.getElementById('trackResume').onclick=()=>running=true;
+
+/* Staff-specific: finish skip rating and show finish page, then redirect to staff */
+document.getElementById('btnDelivered').onclick=()=>{
+  running=false;
+  if(role==='staff'){
+    showFinishPage({auto:true});
+  }else{
+    location.hash='rating';
+  }
+};
+
+/* Finish page logic */
+let finishTimer=null;
+function showFinishPage({auto=false, summary}={}){
+  // Set a friendly summary; you can wire order id here if available.
+  el('finishSummary').textContent = summary || 'Order has been delivered successfully.';
+  show('finish');
+  // Auto-redirect to staff console if staff; otherwise home.
+  const dest = role==='staff' ? 'staff' : 'home';
+  const seconds = 10;
+  el('finishAutoNote').textContent = `Redirecting to ${dest === 'staff' ? 'Staff Console' : 'Home'} in ${seconds}s...`;
+  if(finishTimer){ clearTimeout(finishTimer); }
+  finishTimer = setTimeout(()=>{ location.hash = dest; }, seconds*1000);
+}
+el('finishGoStaff').addEventListener('click',()=>{
+  if(finishTimer) clearTimeout(finishTimer);
+  location.hash='staff';
+});
+el('finishGoHome').addEventListener('click',()=>{
+  if(finishTimer) clearTimeout(finishTimer);
+  location.hash='home';
+});
+
+/* Rating */
+let starVal=0;
+const stars=document.getElementById('stars');
+function updateStars(n){ [...stars.children].forEach((s,i)=>s.classList.toggle('on',i<n)); }
+stars.addEventListener('mousemove',e=>{ if(!e.target.classList.contains('s')) return; const idx=[...stars.children].indexOf(e.target)+1; updateStars(idx); });
+stars.addEventListener('mouseleave',()=>updateStars(starVal));
+stars.addEventListener('click',e=>{ if(!e.target.classList.contains('s')) return; starVal=[...stars.children].indexOf(e.target)+1; updateStars(starVal); });
+document.getElementById('sendFeedback').addEventListener('click',()=>{ if(starVal===0){alert('Please rate first');return;} document.getElementById('fbStatus').textContent='Thanks for your feedback!'; setTimeout(()=>{ location.hash='home'; },1000); });
+
+/* ===== Staff boards ===== */
+const orderBoard=document.getElementById('orderBoard'); const deliveryBoard=document.getElementById('deliveryBoard'); let orderSeq=1;
+function moneySum(){ let s=0; cart.forEach(({dish,qty})=>s+=dish.price*qty); return '$'+(Math.round(s*100)/100).toFixed(2); }
+function createStaffOrder(){
+  const items=Array.from(cart.values()).map(({dish,qty})=>`${qty}×${dish.name}`).join(', ');
+  const total=moneySum(); const id='ORD'+String(orderSeq++).padStart(3,'0');
+  const ticket=document.createElement('div'); ticket.className='card';
+  ticket.innerHTML=`<div><strong>${id}</strong> — ${items}</div><div class="muted">Total ${total} • From ${currentRestaurant?currentRestaurant.name:'N/A'}</div>
+    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn ghost" data-act="accept">Accept</button>
+      <button class="btn ghost" data-act="prep">Ready</button>
+      <button class="btn ghost" data-act="dispatch">Dispatch</button>
+    </div>`;
+  orderBoard.prepend(ticket); cart.clear(); updateCart();
+}
+function addDeliveryNote(text){ const t=document.createElement('div'); t.className='card'; t.textContent=text; deliveryBoard.prepend(t); }
+orderBoard.addEventListener('click',e=>{
+  const btn=e.target.closest('button[data-act]'); if(!btn) return;
+  const stage={accept:'Accepted',prep:'Ready',dispatch:'Dispatched'}[btn.dataset.act];
+  const row=btn.closest('.card'); const note=document.createElement('div'); note.className='muted'; note.textContent=stage; row.appendChild(note);
+  if(btn.dataset.act==='dispatch'){ addDeliveryNote('New delivery: '+row.querySelector('strong').textContent); location.hash='tracking'; }
+});
+
+/* ===== Auth (login/register with redirect back and auto-add + demo accounts) ===== */
+function setAuthRole(r){ role=r; document.getElementById('registerAs').textContent='Role: '+role; document.getElementById('loginAs').textContent='Role: '+role; }
+const regBtn=document.getElementById('btnRegister'), logBtn=document.getElementById('btnLogin'), regForm=document.getElementById('registerForm'), logForm=document.getElementById('loginForm'), loginTitle=document.getElementById('loginTitle');
+const loginEmail=document.getElementById('loginEmail'), loginPass=document.getElementById('loginPass'), loginError=document.getElementById('loginError');
+
+function setLoginMode(mode){ // 'register' | 'login'
+  if(mode==='register'){
+    regForm.style.display='grid';
+    logForm.style.display='none';
+    loginTitle.textContent='Register';
+  }else{
+    regForm.style.display='none';
+    logForm.style.display='grid';
+    loginTitle.textContent='Log in';
+  }
+  updateRolePills();
+}
+
+regBtn.onclick=(e)=>{e.preventDefault(); setLoginMode('register'); updatePostLoginHint();};
+logBtn.onclick=(e)=>{e.preventDefault(); setLoginMode('login'); updatePostLoginHint();};
+
+regForm.onsubmit=(e)=>{e.preventDefault(); finishLogin();};
+logForm.onsubmit=(e)=>{e.preventDefault();
+  loginError.textContent='';
+  const em=(loginEmail.value||'').trim(); const pw=(loginPass.value||'').trim();
+  const demo=AUTH_DEMOS[role];
+  if(demo && em===demo.email && pw===demo.pass){
+    finishLogin();
+  }else{
+    loginError.textContent='Invalid credentials. Try demo.user@example.com / demo1234 (User) or demo.staff@example.com / staff1234 (Staff).';
+  }
+};
+
+function finishLogin(){
+  isLoggedIn=true; document.getElementById('authState').textContent='Logged in ('+role+')';
+  updateRolePills();
+  if(redirectTo){
+    const {route,params}=redirectTo;
+    const go=()=>{ if(route==='restaurant' && params?.id){ location.hash='restaurant?id='+params.id; } else location.hash=route; };
+    const tryAutoAdd=()=>{
+      if(pendingAddDish && currentRestaurant && currentRestaurant.id===params?.id){
+        const dish=currentRestaurant.dishes.find(x=>x.id===pendingAddDish);
+        if(dish) addToCart(dish);
+        pendingAddDish=null;
+      }
+    };
+    const targetId=params?.id;
+    const onHash=()=>{
+      if(route==='restaurant' && currentRestaurant && currentRestaurant.id===targetId){ tryAutoAdd(); window.removeEventListener('hashchange',onHash); }
+    };
+    window.addEventListener('hashchange',onHash);
+    go();
+    redirectTo=null;
+  }else{
+    location.hash= role==='staff' ? 'staff' : (pendingRestaurantId? 'restaurant?id='+pendingRestaurantId : 'home');
+  }
+  pendingRestaurantId=null;
+}
+function updatePostLoginHint(){
+  if(redirectTo){
+    const {route,params}=redirectTo;
+    const name = route==='restaurant' ? ('restaurant '+(params?.id||'')) : route;
+    const add = pendingAddDish ? ' and your selected dish will be added to cart.' : '.';
+    document.getElementById('postLoginHint').textContent='After authentication you will be redirected to '+name+add;
+  }else{
+    document.getElementById('postLoginHint').textContent='';
+  }
+}
+
+/* ===== Misc ===== */
+document.getElementById('year').textContent=new Date().getFullYear();
+updateRolePills(); // initialize pill state on load
+</script>
+</body>
+</html>
